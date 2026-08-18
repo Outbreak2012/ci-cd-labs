@@ -1,0 +1,11 @@
+{
+  "name": "ci-cd-labs",
+  "version": "1.0.0",
+  "description": "Proyecto para el Laboratorio 3",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

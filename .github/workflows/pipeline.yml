@@ -1,40 +1,33 @@
-name: Primer Pipeline CI
+name: CI Pipeline con Pruebas
 
 on:
   push:
-    branches:
-      - main
-      - 'feature/**'
+    branches: [ "main", "feature/**" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  hello-ci:
-    name: Hello CI
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Descargar el código
+        uses: actions/checkout@v3
 
-      - name: Mostrar información del entorno
-        run: |
-          echo "================================"
-          echo "      PRIMER PIPELINE CI"
-          echo "================================"
-          echo "Repositorio: ${{ github.repository }}"
-          echo "Rama: ${{ github.ref_name }}"
-          echo "Commit: ${{ github.sha }}"
-          echo "================================"
+      - name: Configurar entorno Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-      - name: Mostrar fecha y hora
-        run: date
+      - name: Instalar dependencias
+        run: npm install
 
-      - name: Mostrar versión de Git
-        run: git --version
+      - name: Ejecutar pruebas automatizadas (Quality Gate)
+        run: npm test
 
-      - name: Finalizar pipeline
-        run: echo "Pipeline ejecutado correctamente."
-        
-    
+      - name: Guardar reporte de cobertura
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: reporte-cobertura
+          path: coverage/
