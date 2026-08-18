@@ -36,3 +36,6 @@ jobs:
 
       - name: Finalizar pipeline
         run: echo "Pipeline ejecutado correctamente."
+        
+      - name: Forzar error para el laboratorio
+        run: exit 1
